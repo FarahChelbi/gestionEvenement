@@ -42,6 +42,8 @@ class UtilisateurController{
             $db = config::getConnection();
             try {
                 $query = $db->prepare($sql);
+                $hashedPassword = password_hash($user->getMdp(), PASSWORD_DEFAULT);
+
                 $query->execute([
                     /*
                     'nom' => $user->getNom(),
@@ -57,7 +59,7 @@ class UtilisateurController{
                     $user->getEmail(),
                     $user->getAge(),
                     $user->getRole(),
-                    $user->getMdp(),
+                    $hashedPassword,
 
                     
                 ]);
@@ -92,7 +94,8 @@ class UtilisateurController{
                         prenom = :prenom,
 						email= :email, 
 						age= :age,
-						role=:role
+						role=:role,
+                        mdp= :mdp
                         
 						
 					WHERE id= :id'
@@ -104,6 +107,7 @@ class UtilisateurController{
                     'email' => $user->getEmail(),
                     'age'=>$user->getAge(),
                     'role'=>$user->getRole(),
+                    'mdp' => $user->getMdp(),
                     'id' => $id
                     
                     
@@ -113,26 +117,96 @@ class UtilisateurController{
                 $e->getMessage();
             }
         }
-/*
-        public function modifierUtilisateur($user, $id){
-            
-            $sql = "update utilisateur set nom = :nom, prenom =:prenom, email = :email, age = :age, role = :role, mdp = :mdp where id = :id";
 
-            try{
-                $db = config::getConnection();
-                $query = $db->prepare($sql);
-                $query->execute([
-                    'nom' => $user->getNom(),
-                    'prenom' =>$user->getPrenom(),
-                    'email' => $user->getEmail(),
-                    'age'=> $user->getAge(),
-                    'role'=>$user->getRole(),
-                    'id' => $id
-                ]);
-            }catch (PDOException $e) {
-                $e->getMessage();
+    public function connexionAdmin($nom, $mdp)
+{
+    $sql = "SELECT * FROM utilisateur WHERE nom=:nom";
+    $db = config::getConnection();
+    
+    try {
+        $query = $db->prepare($sql);
+        $query->execute(['nom' => $nom]);
+        $count = $query->rowCount();
+        $user = $query->fetch();
+        
+        if ($count == 0) {
+            return "Utilisateur administrateur non trouvé.";
+        } else {
+            if (password_verify($mdp, $user['mdp'])) {
+                // Vérifier si le rôle est administrateur
+                if ($user['role'] === 'admin') {
+                    return "Connexion réussie en tant qu'administrateur.";
+                } else {
+                    return "Vous n'avez pas les privilèges d'administrateur.";
+                }
+            } else {
+                return "Mot de passe incorrect.";
             }
-        }*/
+        }
+    } catch (Exception $e) {
+        return "Erreur : " . $e->getMessage();
+    }
+}
+
+/*
+public function searchUser($value){
+    $db = config::getConnection();
+        $sql="SELECT * FROM utilisateur WHERE nom like ? ";
+
+    try{
+    $req=$db->prepare($sql);
+    $req->execute([$value]);
+    $list= $req->fetch();
+    return $list;
+    }
+    catch (Exception $e){
+        die('Erreur: '.$e->getMessage());
+    }}*/
+    /*
+
+    public function searchUser($value){
+        $db = config::getConnection();
+        $sql = "SELECT * FROM utilisateur WHERE nom LIKE ?";
+    
+        try {
+            $req = $db->prepare($sql);
+    
+            // Ajouter des signes de pourcentage au début et à la fin de la valeur de recherche
+            $searchValue = '%' . $value . '%';
+    
+            $req->execute([$searchValue]);
+            $list = $req->fetchAll(); // Utilisez fetchAll pour obtenir tous les résultats
+    
+            return $list;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }*/
+
+    public function searchUser($value){
+        $db = config::getConnection();
+        $sql = "SELECT * FROM utilisateur WHERE nom LIKE :search OR prenom LIKE :search"; // Utilisez OR pour rechercher dans deux colonnes
+    
+        try {
+            $req = $db->prepare($sql);
+    
+            // Ajoutez des signes de pourcentage au début et à la fin de la valeur de recherche
+            $searchValue = $value . '%';
+    
+            // Liez la valeur de recherche à la requête en utilisant des paramètres nommés
+            $req->bindParam(':search', $searchValue, PDO::PARAM_STR);
+    
+            $req->execute();
+            $list = $req->fetchAll(); // Utilisez fetchAll pour obtenir tous les résultats
+    
+            return $list;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+    
+    
+
 }
 
 

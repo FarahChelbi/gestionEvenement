@@ -7,6 +7,8 @@ $error = "";
 
 $utilisateur = null;
 $utilisateurController = new UtilisateurController();
+$rolesAutorises = ["admin", "organisateur", "participant"];
+
 if (
     isset($_POST["submit"]) 
 ) {
@@ -18,6 +20,7 @@ if (
         !empty($_POST["role"])&&
         !empty($_POST["mdp"])
         ){
+            if (in_array($_POST["role"], $rolesAutorises)) {
             $utilisateur = new Utilisateur(
                 $_POST['nom'],
                 $_POST['prenom'],
@@ -29,8 +32,11 @@ if (
             $utilisateurController->modifierUtilisateur($utilisateur,$_GET["id"]);
             header('Location:showUser.php');
         }
+        else {
+            $error = "Rôle non autorisé. Changez SVP!!!";
+        }
 
-    }
+    }}
 ?>
 
 
@@ -79,7 +85,17 @@ if (
         </div>
     </form>
     <?php } ?>
+
+     <!-- Affichage du message d'erreur -->
+     <?php if (!empty($error)) { ?>
+            <div class="error-message">
+                <?php echo $error; ?>
+            </div>
+        <?php } ?>
+    
     </div>
+
+    
 </body>
 </html>
 

@@ -6,6 +6,7 @@ $error = "";
 $utilisateur = null;
 
 $utilisateurController = new UtilisateurController();
+$rolesAutorises = ["admin", "organisateur", "participant"];
 if (
     isset($_POST["submit"]) 
 ) {
@@ -17,6 +18,7 @@ if (
         !empty($_POST["role"])&&
         !empty($_POST["mdp"])
         ){
+            if (in_array($_POST["role"], $rolesAutorises)) {
             $utilisateur = new Utilisateur(
                 $_POST['nom'],
                 $_POST['prenom'],
@@ -28,6 +30,9 @@ if (
             );
             $utilisateurController->ajouterUtilisateur($utilisateur);
             header('Location:showUser.php');
+        }else {
+            $error = "Rôle non autorisé.";
+        }
 
         }
         else{
@@ -47,6 +52,7 @@ if (
 </head>
 <body>
     <h1>Ajouter un utilisateur</h1>
+  
     <form action="addUser.php" method="post">
         <div>
             <label for="nom">Nom :</label>
@@ -77,5 +83,12 @@ if (
         </div>
         
     </form>
+
+    <!-- Affichage du message d'erreur -->
+  <?php if (!empty($error)) { ?>
+        <div class="error-message">
+            <?php echo $error; ?>
+        </div>
+    <?php } ?>
 </body>
 </html>
