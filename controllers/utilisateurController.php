@@ -1,5 +1,7 @@
 <?php
 require_once("C:\\xampp\\htdocs\\piDev2A\\config.php");
+//include_once '../controllers/utilisateurController.php';
+//include_once '../models/utilisateur.php';
 //include_once '../config.php';
 //include_once '../models/utilisateur.php';
 
@@ -64,7 +66,7 @@ class UtilisateurController{
             }
         }
 
-        public function getUser($id)
+        public function getUserById($id)
         {
             $sql="SELECT * from utilisateur where id = $id";
             $db = config::getConnection();
@@ -89,8 +91,9 @@ class UtilisateurController{
 						nom= :nom, 
                         prenom = :prenom,
 						email= :email, 
-						
+						age= :age,
 						role=:role
+                        
 						
 					WHERE id= :id'
                 );
@@ -99,7 +102,7 @@ class UtilisateurController{
                     'nom' => $user->getNom(),
                     'prenom' =>$user->getPrenom(),
                     'email' => $user->getEmail(),
-                    
+                    'age'=>$user->getAge(),
                     'role'=>$user->getRole(),
                     'id' => $id
                     
@@ -110,6 +113,26 @@ class UtilisateurController{
                 $e->getMessage();
             }
         }
+/*
+        public function modifierUtilisateur($user, $id){
+            
+            $sql = "update utilisateur set nom = :nom, prenom =:prenom, email = :email, age = :age, role = :role, mdp = :mdp where id = :id";
+
+            try{
+                $db = config::getConnection();
+                $query = $db->prepare($sql);
+                $query->execute([
+                    'nom' => $user->getNom(),
+                    'prenom' =>$user->getPrenom(),
+                    'email' => $user->getEmail(),
+                    'age'=> $user->getAge(),
+                    'role'=>$user->getRole(),
+                    'id' => $id
+                ]);
+            }catch (PDOException $e) {
+                $e->getMessage();
+            }
+        }*/
 }
 
 

@@ -19,7 +19,7 @@ $utilisateurListe = $utilisateurController->afficherUtilisateur();
 </head>
 <body>
   <h1 class="text-3xl font-bold underline">
-    Hello world!
+    Liste des utilisateurs
   </h1>
   <table border="1px">
     <thead>
@@ -30,6 +30,7 @@ $utilisateurListe = $utilisateurController->afficherUtilisateur();
             <th>Email</th>
             <th>Age</th>
             <th>Role</th>
+            <th>Modifier</th>
         </tr>
     </thead>
     <tbody>
@@ -53,10 +54,22 @@ $utilisateurListe = $utilisateurController->afficherUtilisateur();
             <td>
                 <h5> <?php echo $utilisateur['role'] ;?> </h5>
             </td>
+            <td>
+               <a href="oneUser.php?id=<?php echo $utilisateur['id']; ?>">Afficher le produit </a>
+               <a href="editUser.php?id=<?php echo $utilisateur['id']; ?>">Modifier utilisateur </a>
+               <a href="deleteUser.php?id=<?php echo $utilisateur['id']; ?>">Supprimer utilisateur </a>
+            </td>
+            <td>
+           
+            </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
   </table>
+  <form action="addUser.php">
+        <input type="submit" value="Aller vers la page 2">
+    </form>
+  
 
 </body>
 </html>
