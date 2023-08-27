@@ -37,8 +37,8 @@ $categorieListe = $categorieController->afficherCategorie();
             <td>
                 <h5> <?php echo $categorie['nomcategorie']; ?> </h5>
             </td>
-            <td>
-                <h5> <?php echo $categorie['imgcatg']; ?> </h5>
+            <td style="text-align: center;">
+            <img src="<?php echo $categorie['imgcatg']; ?>" alt="Image de la catégorie" width="100" height="100">
             </td>
             
             <td>
