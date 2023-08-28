@@ -94,8 +94,8 @@ class UtilisateurController{
                         prenom = :prenom,
 						email= :email, 
 						age= :age,
-						role=:role,
-                        mdp= :mdp
+						role=:role
+                        
                         
 						
 					WHERE id= :id'
@@ -107,7 +107,7 @@ class UtilisateurController{
                     'email' => $user->getEmail(),
                     'age'=>$user->getAge(),
                     'role'=>$user->getRole(),
-                    'mdp' => $user->getMdp(),
+                    
                     'id' => $id
                     
                     
@@ -118,6 +118,38 @@ class UtilisateurController{
             }
         }
 
+
+        public function connexionAdmin($email, $mdp)
+{
+    $sql = "SELECT * FROM utilisateur WHERE email=:email";
+    $db = config::getConnection();
+    
+    try {
+        $query = $db->prepare($sql);
+        $query->execute(['email' => $email]);
+        $count = $query->rowCount();
+        $user = $query->fetch();
+        
+        if ($count == 0) {
+            return "Utilisateur administrateur non trouvé.";
+        } else {
+            if (password_verify($mdp, $user['mdp'])) {
+                // Vérifier si le rôle est administrateur
+                if ($user['role'] === 'admin') {
+                    return "Connexion réussie en tant qu'administrateur.";
+                } else {
+                    return "Vous n'avez pas les privilèges d'administrateur.";
+                }
+            } else {
+                return "Mot de passe incorrect.";
+            }
+        }
+    } catch (Exception $e) {
+        return "Erreur : " . $e->getMessage();
+    }
+}
+
+/*
     public function connexionAdmin($nom, $mdp)
 {
     $sql = "SELECT * FROM utilisateur WHERE nom=:nom";
@@ -147,6 +179,7 @@ class UtilisateurController{
         return "Erreur : " . $e->getMessage();
     }
 }
+*/
 
 /*
 public function searchUser($value){
@@ -185,7 +218,7 @@ public function searchUser($value){
 
     public function searchUser($value){
         $db = config::getConnection();
-        $sql = "SELECT * FROM utilisateur WHERE nom LIKE :search OR prenom LIKE :search"; // Utilisez OR pour rechercher dans deux colonnes
+        $sql = "SELECT * FROM utilisateur WHERE nom LIKE :search OR prenom LIKE :search OR role LIKE :search"; // Utilisez OR pour rechercher dans deux colonnes
     
         try {
             $req = $db->prepare($sql);
