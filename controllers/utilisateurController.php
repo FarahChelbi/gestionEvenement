@@ -149,72 +149,7 @@ class UtilisateurController{
     }
 }
 
-/*
-    public function connexionAdmin($nom, $mdp)
-{
-    $sql = "SELECT * FROM utilisateur WHERE nom=:nom";
-    $db = config::getConnection();
-    
-    try {
-        $query = $db->prepare($sql);
-        $query->execute(['nom' => $nom]);
-        $count = $query->rowCount();
-        $user = $query->fetch();
-        
-        if ($count == 0) {
-            return "Utilisateur administrateur non trouvé.";
-        } else {
-            if (password_verify($mdp, $user['mdp'])) {
-                // Vérifier si le rôle est administrateur
-                if ($user['role'] === 'admin') {
-                    return "Connexion réussie en tant qu'administrateur.";
-                } else {
-                    return "Vous n'avez pas les privilèges d'administrateur.";
-                }
-            } else {
-                return "Mot de passe incorrect.";
-            }
-        }
-    } catch (Exception $e) {
-        return "Erreur : " . $e->getMessage();
-    }
-}
-*/
 
-/*
-public function searchUser($value){
-    $db = config::getConnection();
-        $sql="SELECT * FROM utilisateur WHERE nom like ? ";
-
-    try{
-    $req=$db->prepare($sql);
-    $req->execute([$value]);
-    $list= $req->fetch();
-    return $list;
-    }
-    catch (Exception $e){
-        die('Erreur: '.$e->getMessage());
-    }}*/
-    /*
-
-    public function searchUser($value){
-        $db = config::getConnection();
-        $sql = "SELECT * FROM utilisateur WHERE nom LIKE ?";
-    
-        try {
-            $req = $db->prepare($sql);
-    
-            // Ajouter des signes de pourcentage au début et à la fin de la valeur de recherche
-            $searchValue = '%' . $value . '%';
-    
-            $req->execute([$searchValue]);
-            $list = $req->fetchAll(); // Utilisez fetchAll pour obtenir tous les résultats
-    
-            return $list;
-        } catch (Exception $e) {
-            die('Erreur: ' . $e->getMessage());
-        }
-    }*/
 
     public function searchUser($value){
         $db = config::getConnection();
@@ -237,6 +172,20 @@ public function searchUser($value){
             die('Erreur: ' . $e->getMessage());
         }
     }
+
+    public function getOrganisateurs()
+{
+    $sql = "SELECT * FROM utilisateur WHERE role = 'organisateur'";
+    $db = config::getConnection();
+    
+    try {
+        $query = $db->query($sql);
+        $organisateurs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $organisateurs;
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+}
     
     
 

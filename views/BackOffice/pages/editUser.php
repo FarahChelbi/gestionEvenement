@@ -259,7 +259,11 @@ if (
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <input type="text" name="role" id="role" class="form-control" placeholder="role" value="<?php echo $utilisateur['role'] ?>">
+                    <select name="role" id="role" class="form-control" required>
+                        <option value="admin">Admin</option>
+                        <option value="participant">Participant</option>
+                        <option value="organisateur">Organisateur</option>
+                    </select>
                 </div>
             </div>
         </div>
