@@ -247,18 +247,18 @@ if(
             </div>
 
             <div class="col-md-6">
-        <div class="form-group">
-            <label for="idcategorie">Category</label>
-            <label for="idcategorie">Category</label>
-                <select name="idcategorie" id="idcategorie" class="form-control">
-                    <!-- Option 1: Dynamically populate options from your database -->
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?php echo $category['idcategorie']; ?>">
-                            <?php echo $category['nomcategorie']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-        </div>
+                <div class="form-group">
+                    <label for="idcategorie">Category</label>
+                    <label for="idcategorie">Category</label>
+                        <select name="idcategorie" id="idcategorie" class="form-control">
+                            <!-- Option 1: Dynamically populate options from your database -->
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php echo $category['idcategorie']; ?>">
+                                    <?php echo $category['nomcategorie']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                </div>
     </div>
         </div>
 

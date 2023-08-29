@@ -65,7 +65,8 @@ class EvenementController{
                 titre= :titre,
                 dateevent= :dateevent,
                 organisateur= :organisateur,
-                description= :description
+                description= :description,
+                idcategorie = :idcategorie
                 where idevent = :idevent'
             );
             $query->execute([
@@ -73,6 +74,7 @@ class EvenementController{
                 'dateevent' => $event->getdate_event(),
                 'organisateur' =>$event->getorganisateur(),
                 'description' => $event->getdescription(),
+                'idcategorie' => $event->getidcategorie(),
                 'idevent' => $idevent
             ]);
         }catch (PDOException $e) {
