@@ -111,33 +111,27 @@ if (
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
+                    <a href="addCategory.php">
                         <i class="pe-7s-news-paper"></i>
-                        <p>Typography</p>
+                        <p>Add new category</p>
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
-                        <i class="pe-7s-science"></i>
-                        <p>Icons</p>
+                    <a href="showCategory.php">
+                        <i class="pe-7s-note2"></i>
+                        <p>Categories List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="maps.html">
+                    <a href="addEvent.php">
                         <i class="pe-7s-map-marker"></i>
-                        <p>Maps</p>
+                        <p>Add Event</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
-                        <i class="pe-7s-rocket"></i>
-                        <p>Upgrade to PRO</p>
+                    <a href="showEvent.php">
+                        <i class="pe-7s-note2"></i>
+                        <p>Events list</p>
                     </a>
                 </li>
             </ul>

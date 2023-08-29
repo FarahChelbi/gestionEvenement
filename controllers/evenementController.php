@@ -72,7 +72,7 @@ class EvenementController{
                 'dateevent' => $event->getdate_event(),
                 'organisateur' =>$event->getorganisateur(),
                 'description' => $event->getdescription(),
-                'idevent' => $$idevent
+                'idevent' => $idevent
             ]);
         }catch (PDOException $e) {
             $e->getMessage();

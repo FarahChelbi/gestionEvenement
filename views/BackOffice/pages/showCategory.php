@@ -1,23 +1,11 @@
 <?php
-
-include_once '../../../controllers/utilisateurController.php';
-include_once '../../../models/utilisateur.php';
+include_once '../../../controllers/categorieController.php';
+include_once '../../../models/categorie.php';
 
 $error = "";
 
-$utilisateurController = new UtilisateurController();
-$utilisateurListe = $utilisateurController->afficherUtilisateur();
-
-$searchResults = [];
-
-// Vérifier si un terme de recherche est spécifié dans l'URL
-if (isset($_GET['search'])) {
-    $searchTerm = $_GET['search'];
-
-    // Utiliser la méthode de recherche pour obtenir les résultats
-    $searchResults = $utilisateurController->searchUser("%$searchTerm%");
-}
-
+$categorieController = new CategorieController();
+$categorieListe = $categorieController->afficherCategorie();
 ?>
 
 <!doctype html>
@@ -151,7 +139,7 @@ if (isset($_GET['search'])) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Users</a>
+                    <a class="navbar-brand" href="#">Categories</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -164,8 +152,8 @@ if (isset($_GET['search'])) {
                      
                         <li style="text-align: center; margin-top: 7px;">
                         
-                            <input type="text" id="search" class="custom-search" placeholder="Recherche...">
-                        
+                      <!--      <input type="text" id="search" class="custom-search" placeholder="Recherche...">
+-->
 
                         </li>
                     </ul>
@@ -191,39 +179,34 @@ if (isset($_GET['search'])) {
                     <div class="col-md-12">
                         <div class="card card-plain">
                             <div class="header">
-                                <h4 class="title">List of users</h4>
+                                <h4 class="title">List of Categories</h4>
                                 <p class="category"></p>
                                 
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover">
                                     <thead>
-                                        <th>ID</th>
-                                    	<th>Lastname</th>
-                                    	<th>Firstname</th>
-                                    	<th>Email</th>
-                                    	<th>Age</th>
-                                        <th>Role</th>
-                                        <th>Actions</th>
+                                    <th>ID</th>
+                                    <th>Nom categorie</th>
+                                    <th>image</th>
+                                    <th>Actions</th>
                                     </thead>
                                     <tbody id="searchResults">
-                                    <?php foreach($utilisateurListe as $utilisateur): ?>
+                                    <?php foreach($categorieListe as $categorie): ?>
                                         <tr>
-                                        	<td><?php echo $utilisateur['id']; ?></td>
-                                        	<td><?php echo $utilisateur['nom']; ?></td>
-                                        	<td><?php echo $utilisateur['prenom']; ?></td>
-                                        	<td><?php echo $utilisateur['email'] ;?></td>
-                                        	<td><?php echo $utilisateur['age'] ;?></td>
-                                            <td><?php echo $utilisateur['role'] ;?></td>
+                                        	<td><?php echo $categorie['idcategorie']; ?></td>
+                                        	<td><?php echo $categorie['nomcategorie']; ?></td>
+                                        	<td>
+                                          <img src="<?php echo $categorie['imgcatg']; ?>" alt="Image de la catégorie" width="100" height="100">
+                                          </td>
+                                        	
                                             <td>
-                                            <a href="oneUser.php?id=<?php echo $utilisateur['id']; ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                                            </a>
-                                            <a href="editUser.php?id=<?php echo $utilisateur['id']; ?>">
+                                            
+                                            <a href="editCategory.php?idcategorie=<?php echo $categorie['idcategorie']; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8-4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z"/></svg>
                                             </a>
 
-                                            <a href="deleteUser.php?id=<?php echo $utilisateur['id']; ?>">
+                                            <a href="deleteCategory.php?idcategorie=<?php echo $categorie['idcategorie']; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                                             </a>
                                             </td>
@@ -247,7 +230,7 @@ if (isset($_GET['search'])) {
 
 
 </body>
-
+<!--
 <script>
    // Lorsque l'utilisateur tape dans le champ de recherche
 $("#search").on("input", function() {
@@ -300,7 +283,7 @@ $("#search").on("input", function() {
 
 
 </script>
-
+-->
     <!--   Core JS Files   -->
     <script src="../assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
 	<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
