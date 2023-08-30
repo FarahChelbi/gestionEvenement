@@ -1,6 +1,9 @@
 <?php
 include_once '../../../controllers/evenementController.php';
 include_once '../../../models/evenement.php';
+include_once '../../../controllers/categorieController.php';
+$categorieController = new CategorieController();
+$categories = $categorieController->afficherCategorie();
 
 $error = "";
 $event = null;
@@ -20,6 +23,7 @@ if(
             $_POST['dateevent'],
             $_POST['organisateur'],
             $_POST['description'],
+            $_POST['idcategorie'],
         );
         $evenementController->modifierEvenement($event, $_GET["idevent"]);
         header('Location:showEvent.php');
@@ -248,6 +252,21 @@ if(
                     <input type="text" name="description" id="description" class="form-control" placeholder="Add a description of the new event" value="<?php echo $event['description'] ?>" required>
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="idcategorie">Category</label>
+                    <label for="idcategorie">Category</label>
+                        <select name="idcategorie" id="idcategorie" class="form-control">
+                            <!-- Option 1: Dynamically populate options from your database -->
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php echo $category['idcategorie']; ?>">
+                                    <?php echo $category['nomcategorie']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                </div>
+    </div>
         </div>
 
       

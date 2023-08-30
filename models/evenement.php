@@ -7,14 +7,17 @@
 		
 		private $organisateur;
 		private $description;
+		private $idcategorie;
+
 		
 		
-		function __construct($titre_event, $date_event, $organisateur_event, $description_event){
+		function __construct($titre_event, $date_event, $organisateur_event, $description_event, $idcategorie_event){
 			$this->titre=$titre_event;
 			$this->dateevent=$date_event;
 			
 			$this->organisateur=$organisateur_event;
 			$this->description=$description_event;
+			$this->idcategorie = $idcategorie_event;
 			
 		}
 
@@ -58,6 +61,16 @@
 		function setdescription(string $description_event){
 			$this->description=$description_event;
 		}
+
+		function getidcategorie()
+    {
+        return $this->idcategorie;
+    }
+
+    function setidcategorie($idcategorie_event)
+    {
+        $this->idcategorie = $idcategorie_event;
+    }
 		
 		
 	}

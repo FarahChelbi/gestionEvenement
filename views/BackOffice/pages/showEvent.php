@@ -5,7 +5,8 @@ include_once '../../../models/evenement.php';
 $error="";
 
 $evenementController = new EvenementController();
-$eventListe = $evenementController->afficherEvenement();
+//$eventListe = $evenementController->afficherEvenement();
+$eventListe = $evenementController->afficherEvenementAvecCategories();
 ?>
 
 <!doctype html>
@@ -191,6 +192,7 @@ $eventListe = $evenementController->afficherEvenement();
                                     <th>Date</th>
                                     <th>Organisateur</th>
                                     <th>Description</th>
+                                    <th>Category</th>
                                         <th>Actions</th>
                                     </thead>
                                     <tbody id="searchResults">
@@ -201,6 +203,8 @@ $eventListe = $evenementController->afficherEvenement();
                                         	<td><?php echo $event['dateevent']; ?></td>
                                         	<td><?php echo $event['organisateur'] ;?></td>
                                         	<td><?php echo $event['description'] ;?></td>
+                                            <td><?php echo $event['nomcategorie']; ?></td>
+                                            
                                             
                                             <td>
                                             <a href="oneEvent.php?idevent=<?php echo $event['idevent']; ?>">

@@ -27,7 +27,7 @@ class EvenementController{
     }
 
     public function ajouterEvenement($event){
-        $sql = "INSERT INTO evenement (titre,dateevent,organisateur,description) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO evenement (titre, dateevent, organisateur, description, idcategorie) VALUES (?, ?, ?, ?, ?)";
         $db = config::getConnection();
         try{
             $query = $db->prepare($sql);
@@ -36,6 +36,7 @@ class EvenementController{
                 $event->getdate_event(),
                 $event->getorganisateur(),
                 $event->getdescription(),
+                $event->getidcategorie(),
             ]);
         }catch (Exception $e) {
             echo 'Erreur: '.$e->getMessage();
@@ -64,7 +65,8 @@ class EvenementController{
                 titre= :titre,
                 dateevent= :dateevent,
                 organisateur= :organisateur,
-                description= :description
+                description= :description,
+                idcategorie = :idcategorie
                 where idevent = :idevent'
             );
             $query->execute([
@@ -72,12 +74,29 @@ class EvenementController{
                 'dateevent' => $event->getdate_event(),
                 'organisateur' =>$event->getorganisateur(),
                 'description' => $event->getdescription(),
+                'idcategorie' => $event->getidcategorie(),
                 'idevent' => $idevent
             ]);
         }catch (PDOException $e) {
             $e->getMessage();
         }
      }
+
+     public function afficherEvenementAvecCategories() {
+        $sql = "SELECT e.*, c.nomcategorie
+                FROM evenement e
+                LEFT JOIN categorie c ON e.idcategorie = c.idcategorie";
+    
+        $db = config::getConnection();
+    
+        try {
+            $liste = $db->query($sql);
+            return $liste;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+    
 }
 
 
