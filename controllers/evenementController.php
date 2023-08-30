@@ -96,6 +96,22 @@ class EvenementController{
             die('Erreur: ' . $e->getMessage());
         }
     }
+
+    public function afficherEvenementAvecCategoriesEtImages() {
+        $sql = "SELECT e.*, c.nomcategorie, c.imgcatg
+                FROM evenement e
+                LEFT JOIN categorie c ON e.idcategorie = c.idcategorie";
+        
+        $db = config::getConnection();
+        
+        try {
+            $liste = $db->query($sql);
+            return $liste;
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage());
+        }
+    }
+    
     
 }
 

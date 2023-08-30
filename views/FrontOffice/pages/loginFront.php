@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $msg = $utilisateurController->connexionUtilisateur($email, $mdp);
     if (strpos($msg, "Connexion réussie en tant qu'utilisateur") !== false) {
         // Rediriger vers la page page.php après une connexion réussie
-        header("Location: page.php");
+        header("Location: home.php");
         exit; // Arrêter l'exécution du script après la redirection
     }
 // Afficher le formulaire de connexion
